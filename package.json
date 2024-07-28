@@ -1,0 +1,34 @@
+{
+  "name": "courses",
+  "version": "1.0.0",
+  "description": "Dự án quản lý khoá học",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon src/index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/phohoccode/courses.git"
+  },
+  "keywords": [
+    "nodejs",
+    "express",
+    "mongoose"
+  ],
+  "author": "Phở",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/phohoccode/courses/issues"
+  },
+  "homepage": "https://github.com/phohoccode/courses#readme",
+  "dependencies": {
+    "express": "^4.19.2",
+    "express-handlebars": "^7.1.3",
+    "mongoose": "^8.5.1",
+    "mongoose-slug-updater": "^3.3.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.4"
+  }
+}
