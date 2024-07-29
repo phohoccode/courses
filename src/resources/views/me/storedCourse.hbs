@@ -1,0 +1,55 @@
+<table class="table ">
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col" style="white-space: nowrap;">Ảnh</th>
+      <th scope="col" style="white-space: nowrap;">Tên khoá học</th>
+      <th scope="col" style="white-space: nowrap;">Mô tả</th>
+      <th scope="col" style="white-space: nowrap;" colspan="3">Thời gian</th>
+    </tr>
+  </thead>
+  <tbody>
+    {{#each course}}
+      <tr>
+        <th scope="row">{{sum @index 1}}</th>
+        <td>
+            <img style="width: 120px; height: 80px; border-radius: 8px; overflow: hidden;" src="{{image}}" alt="{{name}}">
+        </td>
+        <td>{{name}}</td>
+        <td>{{description}}</td>
+        <td>{{formatDate updatedAt}}</td>
+        <td style="text-align: right; white-space: nowrap;">
+          <a
+            href="/course/{{_id}}/edit"
+            class="btn btn-primary"
+          >
+            Chỉnh sửa
+          </a>
+           <a
+            href=""
+            data-id="{{_id}}"
+            class="btn btn-danger btn-delete-course"
+          >Xoá</a>
+        </td>
+      </tr>
+    {{/each}}
+  </tbody>
+</table>
+
+<form method="POST" class="form-delete-course"></form>
+
+<script>
+    const btnDeleteCourse = document.querySelectorAll('.btn-delete-course')
+    const formDeleteCourse = document.querySelector('.form-delete-course')
+
+
+    btnDeleteCourse.forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            e.preventDefault()
+            formDeleteCourse.action = 
+                `/course/${ e.target.dataset.id}?_method=DELETE`
+            formDeleteCourse.submit();
+        })
+    })
+
+</script>

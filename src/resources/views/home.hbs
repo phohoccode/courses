@@ -1,5 +1,3 @@
-<div style="margin-top: 32px;">
-    <h2 style="margin-bottom: 24px;">Danh sách khoá học</h2>
   <div class="row">
       {{#each courses}}
         <div class="col-sm-6 col-lg-3">
@@ -10,10 +8,9 @@
               <div class="card-body">
                 <h5 class="card-title">{{name}}</h5>
                 <p class="card-text">{{description}}</p>
-                <a href="#" class="btn btn-primary">Xem khoá học</a>
+                <a href="/course/{{slug}}" class="btn btn-primary">Xem khoá học</a>
               </div>
             </div>
         </div>
       {{/each}}
   </div>
-</div>

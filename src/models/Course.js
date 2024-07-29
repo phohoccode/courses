@@ -13,4 +13,6 @@ const CourseSchema = new Schema({
     timestamps: true
 })
 
+mongoose.plugin(slug)
+
 module.exports = mongoose.model('Course', CourseSchema)
