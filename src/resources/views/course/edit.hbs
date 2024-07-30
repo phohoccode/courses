@@ -1,15 +1,32 @@
 <form method="POST" action="/course/{{course._id}}?_method=PUT">
+  <h2 style="margin-bottom: 32px;">Chỉnh sửa khoá học</h2>
   <div class="mb-3">
     <label for="name" class="form-label">Tên khoá học</label>
-    <input type="text" value="{{course.name}}"  class="form-control" name="name" id="name" />
+    <input
+      type="text"
+      value="{{course.name}}"
+      class="form-control"
+      name="name"
+      id="name"
+    />
   </div>
   <div class="mb-3">
     <label for="description" class="form-label">Mô tả khoá học</label>
-    <textarea class="form-control" name="description" id="description">{{course.description}}</textarea>
+    <textarea
+      class="form-control"
+      name="description"
+      id="description"
+    >{{course.description}}</textarea>
   </div>
   <div class="mb-3">
     <label for="videoId" class="form-label">VideoId</label>
-    <input type="text" value="{{course.videoId}}" class="form-control" name="videoId" id="videoId" />
+    <input
+      type="text"
+      value="{{course.videoId}}"
+      class="form-control"
+      name="videoId"
+      id="videoId"
+    />
   </div>
   <button type="submit" class="btn btn-primary">Lưu lại</button>
 </form>

@@ -2,21 +2,22 @@
   <div
     style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 32px;"
   >
-    <h2>Khoá học của tôi</h2>
-   <div style="display: flex; gap: 12px;">
-        <select id="checkbox-select-all-option" name="action" required>
-            <option value="">--Chọn tác vụ--</option>
-            <option value="delete">Xoá</option>
-        </select>
-        <button class="btn-submit btn btn-primary" disabled>Thực hiện</button>
-   </div>
-    <a href="/me/trash/course" class="btn btn-primary">Thùng rác ({{countCourseDeleted}})</a>
+    <h2>Thùng rác của tôi</h2>
+    <div style="display: flex; gap: 12px;">
+      <select id="checkbox-select-all-option" name="action" required>
+        <option value="">--Chọn tác vụ--</option>
+        <option value="restore">Khôi phục</option>
+        <option value="forceDelete">Xoá vĩnh viễn</option>
+      </select>
+      <button class="btn-submit btn btn-primary" disabled>Thực hiện</button>
+    </div>
+    <a href="/me/stored/course" class="btn btn-primary">Khoá học</a>
   </div>
   {{#if course}}
     <table class="table">
       <thead>
         <tr>
-          <th scope="col">
+         <th scope="col">
             <div class="form-check">
               <input
                 class="form-check-input"
@@ -57,35 +58,34 @@
             <td>{{description}}</td>
             <td>{{formatDate updatedAt}}</td>
             <td style="text-align: right; white-space: nowrap;">
-              <a href="/course/{{_id}}/edit" class="btn btn-primary">
-                Chỉnh sửa
+              <a
+                href=""
+                data-id="{{_id}}"
+                class="btn btn-primary btn-restore-course"
+              >
+                Khôi phục
               </a>
               <a
                 href=""
                 data-id="{{_id}}"
                 class="btn btn-danger btn-delete-course"
-              >Xoá</a>
+              >Xoá vĩnh viễn</a>
             </td>
           </tr>
         {{/each}}
       </tbody>
     </table>
   {{else}}
-    <div
-      style="display: flex; align-items: center; justify-content: space-between;"
-    >
-      <h4>Không có khoá học nào tại đây!</h4>
-      <a href="/course/create" class="btn btn-primary">Thêm ngay</a>
-    </div>
+    <h4 style="text-align: center;">Thùng rác đang trống!</h4>
   {{/if}}
 </form>
 
-<form method="POST" class="form-delete-course"></form>
-
+<form method="POST" class="form-course"></form>
 
 <script>
+    const btnRestoreCourse = document.querySelectorAll('.btn-restore-course')
     const btnDeleteCourse = document.querySelectorAll('.btn-delete-course')
-    const formDeleteCourse = document.querySelector('.form-delete-course')
+    const formCourse = document.querySelector('.form-course')
     const checkboxCourse = document.querySelectorAll('.checkbox')
     const checkboxAllCourse = document.querySelector('#checkAllCourse')
     const btnSubmitForm = document.querySelector('.btn-submit')
@@ -93,19 +93,10 @@
     const checkboxSelectAllOption = 
         document.querySelector('#checkbox-select-all-option')
 
-    btnDeleteCourse.forEach(btn => {
-        btn.addEventListener('click', (e) => {
-            const isConfirm = confirm('Bạn chắn chắn muốn xoá khoá học này?')
-            if (isConfirm) {
-                e.preventDefault()
-                formDeleteCourse.action = 
-                    `/course/${ e.target.dataset.id}?_method=DELETE`
-                formDeleteCourse.submit();
-            }
-        })
-    })
+    handleFormSubmit(btnRestoreCourse, 'restore')
+    handleFormSubmit(btnDeleteCourse, 'forceDelete')
 
-    checkboxAllCourse.addEventListener('click', () => {
+        checkboxAllCourse.addEventListener('click', () => {
         handleAllCheckbox(checkboxAllCourse.checked)
 
         btnSubmitForm.disabled = !checkboxAllCourse.checked
@@ -123,9 +114,9 @@
     })
 
     btnSubmitForm.addEventListener('click', (e) => {
-        if (checkboxSelectAllOption.value === 'delete') {
+        if (checkboxSelectAllOption.value === 'forceDelete') {
             const isConfirm = 
-                confirm('Tất cả khoá học được chọn sẽ bị xoá?')
+                confirm('Tất cả khoá học được chọn sẽ bị xoá vĩnh viễn?')
             if (!isConfirm) {
                 e.preventDefault()
             }
@@ -138,4 +129,28 @@
         })
     }
 
+    function handleFormSubmit(elements, action) {
+        elements.forEach(element => {
+            element.addEventListener('click', (e) => {
+                e.preventDefault()
+                
+                if (action === 'restore') {
+                   formCourse.action = 
+                        `/course/${e.target.dataset.id}/restore?_method=PATCH`
+                }
+
+                if (action === 'forceDelete') {
+                    const isConfirm = 
+                        confirm('Khoá học này sẽ bị xoá vĩnh viễn?')
+                    if (!isConfirm) {
+                        return
+                    }
+                    formCourse.action = 
+                        `/course/${e.target.dataset.id}/force?_method=DELETE`
+                }
+
+                formCourse.submit()
+            })
+        })
+    }
 </script>
