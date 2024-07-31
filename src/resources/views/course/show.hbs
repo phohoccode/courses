@@ -1,15 +1,42 @@
 <div>
-  <h4>Tên khoá học: {{course.name}}</h4>
-  <p>Mô tả: {{course.description}}</p>
-  <div style="width: 100%; height: 360px; margin-top: 32px; border-radius: 8px; overflow: hidden;">
+  <div class="alert-info alert">
+    <h3>{{courses.name}}</h3>
+    <p>Mô tả: {{courses.description}}</p>
+    <span>Trình độ: {{courses.level}}</span>
+  </div>
+  <div class="container-course">
     <iframe
-        style="width: 100%; height: 100%;"
-      src="https://www.youtube.com/embed/{{course.videoId}}"
+      src="https://www.youtube.com/embed/{{courses.videoId}}"
       title="YouTube video player"
       frameborder="0"
       allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
       referrerpolicy="strict-origin-when-cross-origin"
       allowfullscreen
     ></iframe>
+    <ul class="list-video" style="flex: 1; list-style: none;">
+      <h4 class="alert alert-dark">Danh sách video</h4>
+      {{#each courses.videos}}
+        <li
+          class="video-item alert alert-info"
+          style="cursor: pointer;"
+          data-videoId="{{videoId}}"
+        >{{sum @index 1}}. {{title}}</li>
+      {{/each}}
+    </ul>
   </div>
 </div>
+
+<script>
+    const listVideo = document.querySelector('.list-video')
+    const iframe = document.querySelector('iframe')
+
+    listVideo.addEventListener('click', (e) => {
+        const videoItem = e.target.closest('.video-item')
+
+        if (videoItem) {
+            console.log(videoItem)
+            iframe.src = 
+                `https://www.youtube.com/embed/${videoItem.dataset.videoid}`
+        }
+    })
+</script>

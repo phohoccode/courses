@@ -2,18 +2,21 @@ const Course = require('../models/Course')
 
 class MeController {
     async storedCourse(req, res) {
-        const [course, countCourseDeleted] = await Promise.all([
+        const [courses, countCourseDeleted] = await Promise.all([
             Course.find({}).lean(),
             Course.countDocumentsWithDeleted({ deleted: true })
         ])
-        res.render('me/storedCourse', { course, countCourseDeleted })
+        res.render('me/storedCourse', { 
+            courses, 
+            countCourseDeleted
+        })
     }
 
     async trashCourse(req, res) {
         try {
-            const course =
+            const courses =
                 await Course.findWithDeleted({ deleted: true }).lean()
-            res.render('me/trashCourse', { course })
+            res.render('me/trashCourse', { courses })
         } catch (error) {
             console.log(error)
         }

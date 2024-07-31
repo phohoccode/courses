@@ -1,19 +1,29 @@
 <form class="container-form" method="POST" action="/course/handle-form-actions">
   <div
-    style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 32px;"
+    style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 32px; flex-wrap: wrap; gap: 12px;"
   >
     <h2>Khoá học của tôi</h2>
-   <div style="display: flex; gap: 12px;">
-        <select id="checkbox-select-all-option" name="action" required>
-            <option value="">--Chọn tác vụ--</option>
-            <option value="delete">Xoá</option>
+    {{#if courses}}
+      <div style="display: flex; gap: 12px;">
+        <select
+          style="border-radius: 4px;"
+          id="checkbox-select-all-option"
+          name="action"
+          required
+        >
+          <option value="">--Chọn tác vụ--</option>
+          <option value="delete">Xoá</option>
         </select>
         <button class="btn-submit btn btn-primary" disabled>Thực hiện</button>
-   </div>
-    <a href="/me/trash/course" class="btn btn-primary">Thùng rác ({{countCourseDeleted}})</a>
+      </div>
+    {{/if}}
+    <a href="/me/trash/course" class="btn btn-primary">
+      <i class="fa-regular fa-trash-can"></i>
+      Thùng rác ({{countCourseDeleted}})
+    </a>
   </div>
-  {{#if course}}
-    <table class="table">
+  {{#if courses}}
+    <table class="table table-responsive-sm table-bordered">
       <thead>
         <tr>
           <th scope="col">
@@ -28,43 +38,50 @@
           <th scope="col" style="white-space: nowrap;">STT</th>
           <th scope="col" style="white-space: nowrap;">Ảnh</th>
           <th scope="col" style="white-space: nowrap;">Tên khoá học</th>
+          <th scope="col" style="white-space: nowrap;">Số lượng video</th>
           <th scope="col" style="white-space: nowrap;">Mô tả</th>
+          <th scope="col" style="white-space: nowrap;">Trình độ</th>
           <th scope="col" style="white-space: nowrap;" colspan="3">Thời gian</th>
         </tr>
       </thead>
       <tbody>
-        {{#each course}}
+        {{#each courses}}
           <tr>
             <td>
-                <div class="form-check">
-                    <input
-                        class="form-check-input checkbox"
-                        type="checkbox"
-                        value="{{_id}}"
-                        name="courseIds[]"
-                    />
-                </div>
+              <div class="form-check">
+                <input
+                  class="form-check-input checkbox"
+                  type="checkbox"
+                  value="{{_id}}"
+                  name="courseIds[]"
+                />
+              </div>
             </td>
             <th scope="row">{{sum @index 1}}</th>
             <td>
-              <img
-                style="width: 120px; height: 80px; border-radius: 8px; overflow: hidden;"
-                src="{{image}}"
-                alt="{{name}}"
-              />
+              <a href="/course/{{slug}}">
+                <img
+                  style="width: 120px; height: 80px; border-radius: 8px; overflow: hidden;"
+                  src="{{image}}"
+                  alt="{{name}}"
+                />
+              </a>
             </td>
             <td>{{name}}</td>
+            <td>{{videos.length}}</td>
             <td>{{description}}</td>
+            <td>{{level}}</td>
             <td>{{formatDate updatedAt}}</td>
-            <td style="text-align: right; white-space: nowrap;">
-              <a href="/course/{{_id}}/edit" class="btn btn-primary">
+            <td style="display: flex; flex-wrap: wrap; gap: 8px; min-width: 120px">
+              <a style="width: 100%;" href="/course/{{_id}}/edit" class="btn btn-primary">
                 Chỉnh sửa
               </a>
-              <a
+              <a style="width: 100%;"
                 href=""
                 data-id="{{_id}}"
                 class="btn btn-danger btn-delete-course"
               >Xoá</a>
+              <a style="width: 100%;" href="/course/createVideo" class="btn btn-success">Thêm video</a>
             </td>
           </tr>
         {{/each}}
@@ -96,8 +113,8 @@
     btnDeleteCourse.forEach(btn => {
         btn.addEventListener('click', (e) => {
             const isConfirm = confirm('Bạn chắn chắn muốn xoá khoá học này?')
+            e.preventDefault()
             if (isConfirm) {
-                e.preventDefault()
                 formDeleteCourse.action = 
                     `/course/${ e.target.dataset.id}?_method=DELETE`
                 formDeleteCourse.submit();

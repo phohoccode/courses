@@ -12,12 +12,15 @@ class SiteController {
     }
 
     async search(req, res) {
+        const { query } = req.query
         try {
-            const course =
-                await Course.findOne({
-                    name: req.query.query
-                }).lean()
-            res.render('search', { course })
+            const courses = await Course.find({
+                // $or tìm kiếm theo nhiều tiêu chí
+                $or: [
+                    { name: new RegExp(query, 'i') },
+                ]
+            }).lean()
+            res.render('search', { courses, query })
         } catch (error) {
             console.log(error);
         }

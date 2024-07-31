@@ -23,6 +23,7 @@
   },
   "homepage": "https://github.com/phohoccode/courses#readme",
   "dependencies": {
+    "@fortawesome/fontawesome-free": "^6.6.0",
     "date-fns": "^3.6.0",
     "express": "^4.19.2",
     "express-handlebars": "^7.1.3",

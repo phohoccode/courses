@@ -3,17 +3,19 @@
     style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 32px;"
   >
     <h2>Thùng rác của tôi</h2>
-    <div style="display: flex; gap: 12px;">
-      <select id="checkbox-select-all-option" name="action" required>
-        <option value="">--Chọn tác vụ--</option>
-        <option value="restore">Khôi phục</option>
-        <option value="forceDelete">Xoá vĩnh viễn</option>
-      </select>
-      <button class="btn-submit btn btn-primary" disabled>Thực hiện</button>
-    </div>
+    {{#if courses}}
+        <div style="display: flex; gap: 12px;">
+        <select id="checkbox-select-all-option" name="action" required>
+            <option value="">--Chọn tác vụ--</option>
+            <option value="restore">Khôi phục</option>
+            <option value="forceDelete">Xoá vĩnh viễn</option>
+        </select>
+        <button class="btn-submit btn btn-primary" disabled>Thực hiện</button>
+        </div>
+    {{/if}}
     <a href="/me/stored/course" class="btn btn-primary">Khoá học</a>
   </div>
-  {{#if course}}
+  {{#if courses}}
     <table class="table">
       <thead>
         <tr>
@@ -34,7 +36,7 @@
         </tr>
       </thead>
       <tbody>
-        {{#each course}}
+        {{#each courses}}
           <tr>
             <td>
                 <div class="form-check">

@@ -1,16 +1,35 @@
-  <div class="row">
-      {{#each courses}}
-        <div class="col-sm-6 col-lg-3">
-            <div class="card" style="overflow: hidden; border-radius: 8px; margin-bottom: 12px;">
-              <a href="/course/{{slug}}">
-                <img style="height: 200px; width: 100%; object-fit: cover;" src="{{image}}" alt="{{name}}" />
-              </a>
-              <div class="card-body">
-                <h5 class="card-title">{{name}}</h5>
-                <p class="card-text">{{description}}</p>
-                <a href="/course/{{slug}}" class="btn btn-primary">Xem khoá học</a>
-              </div>
-            </div>
+<div class="row">
+  {{#if courses}}
+    {{#each courses}}
+      <div class="col-sm-6 col-lg-3">
+        <div
+          class="card"
+          style="overflow: hidden; border-radius: 8px; margin-bottom: 12px; "
+        >
+          <a href="/course/{{slug}}">
+            <img
+              style="height: 200px; width: 100%; object-fit: cover;"
+              src="{{image}}"
+              alt="{{name}}"
+            />
+          </a>
+          <div class="card-body">
+            <h5 class="card-title" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{name}}</h5>
+            <p
+              style=" 
+              min-height: 70px;
+              display: -webkit-box;         -webkit-line-clamp: 3;
+                -webkit-box-orient: vertical;
+                overflow: hidden;
+                text-overflow: ellipsis;"
+              class="card-text"
+            >{{description}}</p>
+            <a href="/course/{{slug}}" class="btn btn-primary">Xem khoá học</a>
+          </div>
         </div>
-      {{/each}}
-  </div>
+      </div>
+    {{/each}}
+  {{else}}
+    <h3>Không có khoá học nào tại đây!</h3>
+  {{/if}}
+</div>

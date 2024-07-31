@@ -1,0 +1,23 @@
+<form method="POST" action="/course/storedVideo" id="courseForm">
+  <h2 style="margin-bottom: 32px;" class="alert alert-success">Thêm video</h2>
+    <div class="mb-3">
+        <label for="title" class="form-label">Tiêu đề video</label>
+        <input type="text" class="form-control" name="title" id="title" required />
+    </div>
+  <div class="mb-3">
+    <label for="videoId" class="form-label">
+        VideoId
+    </label>
+    <input type="text" class="form-control" name="videoId" id="videoId" required/>
+  </div>
+  <div class="mb-3">
+    <label for="courseId" class="form-label">Chọn khoá học cần thêm</label>
+    <select class="form-select" name="courseId" id="courseId" required>
+      <option value="">-- Danh sách khoá học --</option>
+      {{#each courses}}
+        <option value="{{_id}}">{{name}}</option>
+      {{/each}}
+    </select>
+  </div>
+  <button type="submit" class="btn btn-primary">Thêm video</button>
+</form>

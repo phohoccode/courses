@@ -1,6 +1,6 @@
-<form method="POST" action="/course/stored">
-  <h2 style="margin-bottom: 32px;">Thêm khoá học</h2>
-  <div class="mb-3">
+<form method="POST" action="/course/stored" id="courseForm">
+  <h2 style="margin-bottom: 32px;" class="alert alert-success">Thêm khoá học</h2>
+  <div class="mb-3 formName">
     <label for="name" class="form-label">Tên khoá học</label>
     <input type="text" class="form-control" name="name" id="name" required />
   </div>
@@ -14,7 +14,11 @@
       required
     />
   </div>
-  <div class="mb-3">
+  <div class="mb-3 formLevel">
+    <label for="level" class="form-label">Trình độ</label>
+    <input type="text" class="form-control" name="level" id="level" />
+  </div>
+  <div class="mb-3 formVideoId">
     <label for="videoId" class="form-label">VideoId</label>
     <input
       type="text"
@@ -24,5 +28,10 @@
       required
     />
   </div>
-  <button type="submit" class="btn btn-primary">Thêm khoá học</button>
+  <div style="display: flex; gap: 12px;">
+    <button type="submit" class="btn btn-primary">Thêm khoá học</button>
+    {{#if courses}}
+        <a href="/course/createVideo" class="btn btn-success">Thêm video</a>
+    {{/if}}
+  </div>
 </form>

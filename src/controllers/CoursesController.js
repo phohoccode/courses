@@ -3,17 +3,31 @@ const Course = require('../models/Course')
 class CoursesController {
     async show(req, res) {
         try {
-            const course = await Course.findOne({
+            const courses = await Course.findOne({
                 slug: req.params.slug
             }).lean()
-            res.render('course/show', { course })
+            res.render('course/show', { courses })
         } catch (error) {
             console.log(error);
         }
     }
 
-    create(req, res) {
-        res.render('course/create')
+    async create(req, res) {
+        try {
+            const courses = await Course.find({}).lean()
+            res.render('course/create', { courses })
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
+    async createVideo(req, res) {
+        try {
+            const courses = await Course.find({}).lean()
+            res.render('course/createVideo', { courses })
+        } catch (error) {
+            console.log(error)
+        }
     }
 
     async stored(req, res) {
@@ -23,6 +37,26 @@ class CoursesController {
                 `https://i.ytimg.com/vi/${req.body.videoId}/hqdefault.jpg`
             const course = new Course(formData)
             await course.save()
+            res.redirect('/me/stored/course')
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
+    async storedVideo(req, res) {
+        try {
+            const { title, videoId, courseId } = req.body
+            const videoData = {
+                videoId,
+                title,
+                image: `https://i.ytimg.com/vi/${videoId}/hqdefault.jpg`
+            }
+
+            await Course.updateOne(
+                { _id: courseId },
+                { $push: { videos: videoData } }
+            )
+
             res.redirect('/me/stored/course')
         } catch (error) {
             console.log(error)
@@ -83,7 +117,7 @@ class CoursesController {
 
     async handleFormActions(req, res) {
         try {
-            switch(req.body.action) {
+            switch (req.body.action) {
                 case 'delete': {
                     await Course.delete({
                         _id: {
@@ -115,7 +149,7 @@ class CoursesController {
                 }
 
                 default: console.log('Action isValid!')
-            }            
+            }
         } catch (error) {
             console.log(error)
         }
