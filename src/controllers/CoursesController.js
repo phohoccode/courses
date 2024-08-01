@@ -74,6 +74,21 @@ class CoursesController {
         }
     }
 
+    async editVideo(req, res) {
+        try {
+            const { id, videoId } = req.params
+
+            const course = await Course.findById({
+                _id: id
+            }).lean()
+
+            const video = course.videos.find(video => video.videoId === videoId)
+            res.render('course/editVideo', { course, video, videoId })
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
     async update(req, res) {
         try {
             const formData = { ...req.body }
@@ -88,9 +103,46 @@ class CoursesController {
         }
     }
 
+    async updateVideo(req, res) {
+        try {
+            const course = await Course.findById({
+                _id: req.params.id
+            })
+
+            const videoIndex = 
+                course.videos.findIndex(video => 
+                    video.videoId === req.body.videoId)
+
+            course.videos[videoIndex].title = req.body.title
+            course.videos[videoIndex].videoId = req.body.videoId
+
+            course.save()
+            res.redirect(`/course/${req.params.id}/edit`)
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
     async delete(req, res) {
         try {
             await Course.delete({ _id: req.params.id })
+            res.redirect('back')
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
+    async deleteVideo(req, res) {
+        try {
+            const course = await Course.findById({
+                _id: req.params.id
+            })
+
+            course.videos =
+                course.videos.filter(video =>
+                    video.videoId !== req.params.videoid)
+
+            await course.save()
             res.redirect('back')
         } catch (error) {
             console.log(error)

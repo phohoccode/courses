@@ -18,8 +18,8 @@
       </div>
     {{/if}}
     <a href="/me/trash/course" class="btn btn-primary">
-      <i class="fa-regular fa-trash-can"></i>
-      Thùng rác ({{countCourseDeleted}})
+        <i class="fa-regular fa-trash-can"></i>
+        Thùng rác ({{countCourseDeleted}})
     </a>
   </div>
   {{#if courses}}
@@ -72,16 +72,27 @@
             <td>{{description}}</td>
             <td>{{level}}</td>
             <td>{{formatDate updatedAt}}</td>
-            <td style="display: flex; flex-wrap: wrap; gap: 8px; min-width: 120px">
-              <a style="width: 100%;" href="/course/{{_id}}/edit" class="btn btn-primary">
+            <td
+              style="display: flex; flex-wrap: wrap; gap: 8px; min-width: 120px"
+            >
+              <a
+                style="width: 100%;"
+                href="/course/{{_id}}/edit"
+                class="btn btn-primary"
+              >
                 Chỉnh sửa
               </a>
-              <a style="width: 100%;"
+              <a
+                style="width: 100%;"
                 href=""
                 data-id="{{_id}}"
                 class="btn btn-danger btn-delete-course"
               >Xoá</a>
-              <a style="width: 100%;" href="/course/createVideo" class="btn btn-success">Thêm video</a>
+              <a
+                style="width: 100%;"
+                href="/course/createVideo"
+                class="btn btn-success"
+              >Thêm video</a>
             </td>
           </tr>
         {{/each}}
@@ -98,7 +109,6 @@
 </form>
 
 <form method="POST" class="form-delete-course"></form>
-
 
 <script>
     const btnDeleteCourse = document.querySelectorAll('.btn-delete-course')

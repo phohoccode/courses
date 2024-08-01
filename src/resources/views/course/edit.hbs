@@ -1,38 +1,78 @@
-<form method="POST" action="/course/{{course._id}}?_method=PUT">
-  <h2 style="margin-bottom: 32px;">Chỉnh sửa khoá học</h2>
-  <div class="mb-3">
-    <label for="name" class="form-label">Tên khoá học</label>
-    <input
-      type="text"
-      value="{{course.name}}"
-      class="form-control"
-      name="name"
-      id="name"
-    />
-  </div>
-  <div class="mb-3">
-    <label for="description" class="form-label">Mô tả khoá học</label>
-    <textarea
-      class="form-control"
-      name="description"
-      id="description"
-    >{{course.description}}</textarea>
-  </div>
-  <div class="mb-3">
-    <label for="videoId" class="form-label">VideoId</label>
-    <input
-      type="text"
-      value="{{course.videoId}}"
-      class="form-control"
-      name="videoId"
-      id="videoId"
-    />
-  </div>
-  <div class="mb-3">
-    <label for="level" class="form-label">Trình độ</label>
-    <input type="text" value="{{course.level}}" class="form-control" name="level" id="level" required />
-  </div>
-  <button type="submit" class="btn btn-primary">
-    <i class="fa-regular fa-floppy-disk"></i>
-    Lưu lại</button>
-</form>
+<div hidden>{{@root.course._id}}</div>
+
+<div class="container-edit-course">
+    <form method="POST" action="/course/{{course._id}}?_method=PUT" style="flex: 2;">
+      <h2 class="alert alert-primary" style="margin-bottom: 32px;">Chỉnh sửa khoá học</h2>
+      <div class="mb-3">
+        <label for="name" class="form-label">Tên khoá học</label>
+        <input
+          type="text"
+          value="{{course.name}}"
+          class="form-control"
+          name="name"
+          id="name"
+        />
+      </div>
+      <div class="mb-3">
+        <label for="description" class="form-label">Mô tả khoá học</label>
+        <textarea
+          class="form-control"
+          name="description"
+          id="description"
+        >{{course.description}}</textarea>
+      </div>
+      <div class="mb-3">
+        <label for="videoId" class="form-label">VideoId</label>
+        <input
+          type="text"
+          value="{{course.videoId}}"
+          class="form-control"
+          name="videoId"
+          id="videoId"
+        />
+      </div>
+      <div class="mb-3">
+        <label for="level" class="form-label">Trình độ</label>
+        <input type="text" value="{{course.level}}" class="form-control" name="level" id="level" required />
+      </div>
+      <button type="submit" class="btn btn-primary">
+        <i class="fa-regular fa-floppy-disk"></i>
+        Lưu lại</button>
+    </form>
+    <ul class="" style="flex: 1; list-style: none;">
+        <h4 class="alert alert-dark">Danh sách video</h4>
+        {{#each course.videos}}
+            <li class="alert-info alert" style="    display: flex; flex-direction: column; gap: 12px;" data-id="{{_id}}">
+                <span>
+                    {{sum @index 1}}. {{title}}
+                </span>
+                <div style="">
+                    <a href="" data-videoid="{{videoId}}" class="btn btn-danger btn-delete-video">Xoá</a>
+                    <a href="/course/{{@root.course._id}}/{{videoId}}/edit" class="btn btn-primary">Chỉnh sửa</a>
+                </div>
+            </li>
+        {{/each}}
+    </ul>
+</div>
+
+<form action="" data-id="{{course._id}}" method="POST" class="form-delete-video"></form>
+
+<script>
+    const btbDeleteVideo = document.querySelectorAll('.btn-delete-video')
+    const formDeleteVideo = document.querySelector('.form-delete-video')
+    const courseId = formDeleteVideo.dataset.id
+
+    btbDeleteVideo.forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            const isConfirm = confirm('Bạn chắn chắn muốn xoá khoá học này?')
+            e.preventDefault()
+            if (isConfirm) {
+                formDeleteVideo.action = 
+                    `/course/${courseId}/video/${ e.target.dataset.videoid}?_method=DELETE`
+                formDeleteVideo.submit()
+            }
+        })
+    })
+
+
+</script>

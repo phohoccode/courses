@@ -1,0 +1,26 @@
+<div class="container-edit-course">
+    <form method="POST" action="/course/{{course._id}}/video/{{videoId}}?_method=PUT" style="flex: 2;">
+      <h2 style="margin-bottom: 32px;">Chỉnh sửa video</h2>
+      <div class="mb-3">
+        <label for="title" class="form-label">Tiêu đề video</label>
+        <textarea
+          class="form-control"
+          name="title"
+          id="title"
+        >{{video.title}}</textarea>
+      </div>
+      <div class="mb-3">
+        <label for="videoId" class="form-label">VideoId</label>
+        <input
+          type="text"
+          value="{{videoId}}"
+          class="form-control"
+          name="videoId"
+          id="videoId"
+        />
+      </div>
+      <button type="submit" class="btn btn-primary">
+        <i class="fa-regular fa-floppy-disk"></i>
+        Lưu lại</button>
+    </form>
+</div>

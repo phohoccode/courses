@@ -1,6 +1,6 @@
 <div class="row">
   {{#if courses}}
-  <h3 style="margin-bottom: 32px;" class="alert alert-success">Tìm được {{courses.length}} khoá học cho từ khoá "{{query}}"</h3>
+  <h3 style="margin-bottom: 32px;" class="alert alert-primary">Tìm thấy {{courses.length}} khoá học cho từ khoá "{{query}}"</h3>
     {{#each courses}}
       <div class="col-sm-6 col-lg-3">
         <div
@@ -31,6 +31,6 @@
       </div>
     {{/each}}
   {{else}}
-    <h3>Không có khoá học nào tại đây!</h3>
+    <h3>Không tìm thấy khoá học cho từ khoá "{{query}}"</h3>
   {{/if}}
 </div>
